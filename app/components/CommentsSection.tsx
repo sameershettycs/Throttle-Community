@@ -76,7 +76,7 @@ export default function CommentsSection({
       {sortedComments.length > 0 ? (
         <div className="space-y-4">
           {sortedComments.map((comment) => (
-            <CommentItem key={comment.id} comment={comment} />
+            <CommentItem key={comment.uid} comment={comment} />
           ))}
         </div>
       ) : (

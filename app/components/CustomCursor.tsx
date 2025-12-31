@@ -17,7 +17,7 @@ export default function CustomCursor() {
   const cursorTrailRef = useRef<HTMLDivElement>(null);
   const cursorTextRef = useRef<HTMLDivElement>(null);
   const trailDotsRef = useRef<HTMLDivElement[]>([]);
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number | undefined>(undefined);
 
   const [cursorState, setCursorState] = useState<CursorState>({
     x: 0,
