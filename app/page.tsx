@@ -10,7 +10,6 @@ import {
 
 export default function Home() {
   return (
-    <>
       <Hero />
 
       {/* Bike Divider Animation */}
