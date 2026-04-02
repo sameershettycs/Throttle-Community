@@ -222,7 +222,7 @@ export default function AskQuestionForm() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6" data-netlify="true">
                   {/* Title Input */}
                   <div className="space-y-2">
                     <label
