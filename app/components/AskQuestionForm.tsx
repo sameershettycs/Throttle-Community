@@ -1,21 +1,21 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { getAllEntries } from "@/contentstack/cda";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect, useRef, useState } from "react";
 import {
-  FaPaperPlane,
+  FaCheckCircle,
+  FaCog,
   FaLightbulb,
   FaMotorcycle,
-  FaWrench,
+  FaPaperPlane,
   FaRoute,
-  FaCog,
   FaUsers,
-  FaCheckCircle,
+  FaWrench,
 } from "react-icons/fa";
-import { getAllEntries } from "@/contentstack/cda";
-import type { Question } from "../types/contentstack";
 import { getCategories } from "../lib/contentstack-helpers";
+import type { Question } from "../types/contentstack";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,12 +45,18 @@ export default function AskQuestionForm() {
       try {
         const questionsRes = await getAllEntries("question");
         const questions = (questionsRes.entries || []) as Question[];
-        const cats = getCategories(questions).filter(c => c !== "All");
+        const cats = getCategories(questions).filter((c) => c !== "All");
         setCategories(cats);
       } catch (error) {
         console.error("Error fetching categories:", error);
         // Fallback categories
-        setCategories(["Maintenance", "Gear", "Routes", "Technical", "General"]);
+        setCategories([
+          "Maintenance",
+          "Gear",
+          "Routes",
+          "Technical",
+          "General",
+        ]);
       }
     };
     fetchCategories();
@@ -74,7 +80,7 @@ export default function AskQuestionForm() {
           start: "top 80%",
           toggleActions: "play none none reverse",
         },
-      }
+      },
     );
 
     gsap.fromTo(
@@ -90,7 +96,7 @@ export default function AskQuestionForm() {
           start: "top 70%",
           toggleActions: "play none none reverse",
         },
-      }
+      },
     );
 
     gsap.fromTo(
@@ -107,7 +113,7 @@ export default function AskQuestionForm() {
           start: "top 80%",
           toggleActions: "play none none reverse",
         },
-      }
+      },
     );
 
     return () => {
@@ -161,7 +167,7 @@ export default function AskQuestionForm() {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -222,7 +228,7 @@ export default function AskQuestionForm() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6" data-netlify="true">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Title Input */}
                   <div className="space-y-2">
                     <label
