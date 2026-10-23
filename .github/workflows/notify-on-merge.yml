@@ -27,11 +27,14 @@ jobs:
             exit 1
           fi
 
+          # Automate HTTP triggers require a JSON object body
+          payload=$(jq -cn --arg token "$REQUEST_BODY" '{token: $token}')
+
           status=$(curl -sS -o response.txt -w '%{http_code}' \
             -X POST "$API_URL" \
             -H "Content-Type: application/json" \
             --retry 3 --retry-delay 5 \
-            --data-raw "$REQUEST_BODY")
+            --data-raw "$payload")
 
           echo "[$ENV_NAME] HTTP $status"
           if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
