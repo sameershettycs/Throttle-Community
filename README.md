@@ -38,3 +38,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Merge notification workflow
 
 When a PR into `master` is merged, `.github/workflows/notify-on-merge.yml` runs one job per GitHub environment (`aws-na`, `gcp-na`). After the environment's required reviewer approves, it POSTs `{"token": "<TOKEN>"}` (the environment's `TOKEN` variable wrapped in JSON) to its `API` secret.
+
+<!-- dummy PR to test merge workflow -->
