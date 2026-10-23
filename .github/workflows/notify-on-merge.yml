@@ -1,0 +1,41 @@
+name: Notify API on merge
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [master]
+
+jobs:
+  call-api:
+    # Only run when the PR was actually merged, not just closed
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [aws-na, gcp-na]
+    environment: ${{ matrix.environment }}
+    steps:
+      - name: Call API
+        env:
+          API_URL: ${{ secrets.API }}
+          REQUEST_BODY: ${{ vars.TOKEN }}
+          ENV_NAME: ${{ matrix.environment }}
+        run: |
+          if [ -z "$API_URL" ]; then
+            echo "::error::Secret 'API' is not set for environment '$ENV_NAME'"
+            exit 1
+          fi
+
+          status=$(curl -sS -o response.txt -w '%{http_code}' \
+            -X POST "$API_URL" \
+            -H "Content-Type: application/json" \
+            --retry 3 --retry-delay 5 \
+            --data-raw "$REQUEST_BODY")
+
+          echo "[$ENV_NAME] HTTP $status"
+          if [ "$status" -lt 200 ] || [ "$status" -ge 300 ]; then
+            echo "::error::API call failed for $ENV_NAME (HTTP $status)"
+            cat response.txt
+            exit 1
+          fi
