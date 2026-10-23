@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Merge notification workflow
+
+When a PR into `master` is merged, `.github/workflows/notify-on-merge.yml` runs one job per GitHub environment (`aws-na`, `gcp-na`). After the environment's required reviewer approves, it POSTs the environment's `TOKEN` variable as the request body to its `API` secret.
